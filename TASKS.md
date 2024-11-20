@@ -6,7 +6,7 @@
 2.  Validate the data before you save the data. All fields should be mandatory and at least 2 characters long. Don't forget to update the `User` type as well. For the validation you should use `zod` validation library. You can find some useful information [here](https://react-hook-form.com/get-started#SchemaValidation) and [here](https://github.com/colinhacks/zod)
 3. Save the data to the backend, and use the `useMutation` hook from `react-query` library.
 
-## 2. Add search to the rooms table.
+## 2. Add search to the rooms table
 
 1. The `SearchField` component is already implemented, you can find it in the components folder.
 2. Your task is to use this component in the `Rooms` page. Put it above the room's table.
