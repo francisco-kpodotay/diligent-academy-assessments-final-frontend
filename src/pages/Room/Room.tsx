@@ -4,6 +4,7 @@ import { Grid2 as Grid, Typography, Paper, Box, Button, List, ListItem, ListItem
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import DeleteIcon from '@mui/icons-material/Delete';
+import React from "react";
 
 const INITIAL_SECONDS = 60;
 
@@ -14,7 +15,8 @@ const formatTime = (timeInSeconds: number) => {
   return `${minutes}:${seconds}`;
 };
 
-export function Room() {
+
+const Room:React.FC = () => {
   let { id } = useParams();
   // const [timerSeconds, setTimerSeconds] = React.useState(INITIAL_SECONDS);
   
@@ -97,3 +99,5 @@ export function Room() {
     </Grid>
   )
 }
+
+export default Room;

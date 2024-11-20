@@ -22,8 +22,6 @@ export async function getUsers(): Promise<PaginatedResponse<User>> {
  * @returns Promise
  */
 export async function createUser(payload: User) {
-  console.log(payload);
-  
   return await fetch(`${import.meta.env.VITE_API_URL}/users`, {
     method: 'POST',
     headers: {

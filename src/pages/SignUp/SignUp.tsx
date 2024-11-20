@@ -50,7 +50,7 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
   }),
 }));
 
-export function SignUp() {
+const SignUp = () => {
   const { login } = useSessionDispatch()
   const navigate = useNavigate();
 
@@ -143,3 +143,5 @@ export function SignUp() {
     </SignUpContainer>
   )
 }
+
+export default SignUp;

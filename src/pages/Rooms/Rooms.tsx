@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { getRooms } from '@/api/rooms.service';
 import { PaginatedResponse, Room } from '@/types';
 
-export function Rooms() {
+const Rooms = ()=>{
   const [paginationModel, setPaginationModel] = React.useState({
     page: 0,
     pageSize: 5,
@@ -79,3 +79,5 @@ export function Rooms() {
     </Stack>
   )
 }
+
+export default Rooms;
