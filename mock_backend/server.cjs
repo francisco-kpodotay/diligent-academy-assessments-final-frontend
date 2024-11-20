@@ -11,6 +11,34 @@ const { v4: uuidv4 } = require("uuid");
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
+server.get("/rooms", async (req, res) => {
+  const { _limit = 5, _page = 1, q } = req.query;
+
+  await router.db.read(); 
+  let rooms = router.db.get("rooms").value(); 
+
+  if (q) {
+    rooms = rooms.filter((room) =>
+      room.name.toLowerCase().includes(q.toLowerCase())
+    );
+  }
+
+  const total = rooms.length; 
+  const limit = parseInt(_limit, 10);
+  const page = parseInt(_page, 10); 
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit;
+
+  const paginatedRooms = rooms.slice(startIndex, endIndex);
+
+  res.jsonp({
+    data: paginatedRooms,
+    total,
+    page_size: limit,
+    page_number: page,
+  });
+});
+
 server.get("/votes", async (req, res) => {
   const { storyId } = req.query;
   await router.db.read();
