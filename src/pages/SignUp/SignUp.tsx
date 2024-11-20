@@ -5,11 +5,16 @@ import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { User } from "@/types"
 import { useMutation } from "@tanstack/react-query";
 import { createUser } from "@/api";
+import {z} from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-interface IFormInput {
-  name: string;
-  email: string;
-}
+const schema = z.object({
+  firstName: z.string().min(2),
+  lastName: z.string().min(2),
+  email: z.string().email()
+})
+
+type IFormInput = z.infer<typeof schema>
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -49,7 +54,7 @@ export function SignUp() {
   const { login } = useSessionDispatch()
   const navigate = useNavigate();
 
-  const mutation = useMutation({
+  const {mutateAsync} = useMutation({
     mutationFn: (payload: User) => {
       return createUser(payload)
     },
@@ -57,14 +62,17 @@ export function SignUp() {
   
   const { control, handleSubmit, formState } = useForm({
     defaultValues: {
-      name: '',
+      firstName: '',
+      lastName: '',
       email: '',
-    }
+    },
+    resolver: zodResolver(schema)
   });
 
-  const onSubmit: SubmitHandler<IFormInput> = data => {
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    await mutateAsync({ ...data } as unknown as User)
     // Enable this line after implementing the first and last name fields
-    login({ ...data } as User)
+    login({ ...data } as unknown as User)
     // create user
     return navigate('/')
   };
@@ -75,19 +83,37 @@ export function SignUp() {
       <Typography component="h1" sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}>Sign Up</Typography>
       <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <Controller
-          name="name"
+          name="firstName"
           control={control}
           render={({ field }) => (
             <FormControl>
-              <FormLabel htmlFor="name">Name</FormLabel>
+              <FormLabel htmlFor="firstName">First Name</FormLabel>
               <TextField 
                 {...field} 
                 required 
                 fullWidth 
-                placeholder="Your name" 
-                error={!!formState.errors.name}
-                helperText={formState.errors.name?.message?.toString()} 
-                color={!!formState.errors.name ? 'error' : 'primary'} 
+                placeholder="Your first name" 
+                error={!!formState.errors.firstName}
+                helperText={formState.errors.firstName?.message?.toString()} 
+                color={!!formState.errors.firstName ? 'error' : 'primary'} 
+              />
+            </FormControl>
+          )}
+        />
+        <Controller
+          name="lastName"
+          control={control}
+          render={({ field }) => (
+            <FormControl>
+              <FormLabel htmlFor="lastName">Last Name</FormLabel>
+              <TextField 
+                {...field} 
+                required 
+                fullWidth 
+                placeholder="Your last name" 
+                error={!!formState.errors.lastName}
+                helperText={formState.errors.lastName?.message?.toString()} 
+                color={!!formState.errors.lastName ? 'error' : 'primary'} 
               />
             </FormControl>
           )}
