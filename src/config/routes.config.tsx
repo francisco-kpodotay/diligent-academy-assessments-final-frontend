@@ -11,6 +11,7 @@ https://reactrouter.com/en/main/route/hydrate-fallback-element
 const Room = lazy(() => import("../pages/Room/Room"));
 const Rooms = lazy(() => import("../pages/Rooms/Rooms"));
 const SignUp = lazy(() => import("../pages/SignUp/SignUp"));
+const CreateRoom = lazy(() => import("../pages/CreateRoom/CreateRoom"));
 
 const HydrateFallback = () => {
   return <div>Loading...</div>;
@@ -37,6 +38,11 @@ export const router = createBrowserRouter(
     {
       path: "/signup",
       element: <SignUp />,
+      hydrateFallbackElement: <HydrateFallback />,
+    },
+    {
+      path: "/createroom",
+      element: <CreateRoom/>,
       hydrateFallbackElement: <HydrateFallback />,
     },
   ],

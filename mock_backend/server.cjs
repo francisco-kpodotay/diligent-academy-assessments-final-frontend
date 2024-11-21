@@ -93,6 +93,35 @@ server.post("/users", async (req, res) => {
   res.status(201).jsonp({ success: true, user: newUser });
 });
 
+const isValidDate = (date) => /^\d{4}-\d{2}-\d{2}$/.test(date);
+
+server.post('/rooms', (req, res) => {
+  const { name, userId, createdAt } = req.body;
+
+  if (!name || name.length < 5) {
+    return res.status(400).json({ error: 'Name must be at least 5 characters long.' });
+  }
+
+  const userExists = router.db.get('users').find({ id: userId }).value();
+  if (!userExists) {
+    return res.status(400).json({ error: 'Invalid userId. User does not exist.' });
+  }
+
+  if (!createdAt || !isValidDate(createdAt)) {
+    return res.status(400).json({ error: 'Invalid createdAt. Format must be YYYY-MM-DD.' });
+  }
+
+  const newRoom = {
+    id: uuidv4(),
+    name,
+    userId,
+    createdAt,
+  };
+
+  router.db.get('rooms').push(newRoom).write();
+  res.status(201).json(newRoom);
+});
+
 server.delete("/stories/:id", async (req, res) => {
   const { id } = req.params;
   await router.db.read();

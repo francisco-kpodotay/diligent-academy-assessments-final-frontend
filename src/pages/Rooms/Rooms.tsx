@@ -75,7 +75,7 @@ const Rooms = () => {
         spacing={2}
         sx={{ justifyContent: "space-between" }}
       >
-        <Link to="#">Create a new Room</Link>
+        <Link to="/createroom">Create a new Room</Link>
       </Stack>
       <SearchField searchValue={searchValue} setSearchValue={setSearchValue} />
       <Box sx={{ maxHeight: 500, width: "100%" }}>

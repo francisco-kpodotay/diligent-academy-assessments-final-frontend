@@ -54,7 +54,7 @@ const SignUp = () => {
   const { login } = useSessionDispatch()
   const navigate = useNavigate();
 
-  const {mutateAsync} = useMutation({
+  const { mutateAsync: createUserMutation} = useMutation({
     mutationFn: (payload: User) => {
       return createUser(payload)
     },
@@ -69,12 +69,15 @@ const SignUp = () => {
     resolver: zodResolver(schema)
   });
 
-  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    await mutateAsync({ ...data } as unknown as User)
-    // Enable this line after implementing the first and last name fields
-    login({ ...data } as unknown as User)
-    // create user
-    return navigate('/')
+  const onSubmit: SubmitHandler<IFormInput> = async (inputData) => {
+    try {
+      const respons = await createUserMutation({ ...inputData } as unknown as User)
+      const data = await respons.json()
+      login({ ...data.user } as unknown as User)
+      return navigate('/')
+    } catch (error) {
+      console.error('Error creating user:', error);
+    }
   };
 
   return (
