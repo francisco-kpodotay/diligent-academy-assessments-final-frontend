@@ -34,9 +34,9 @@ const Room:React.FC = () => {
 
 
   return (
-    <Grid container spacing={2} columns={12}>
+    <Grid container spacing={2} columns={3}>
       {/*  1st column */}
-      <Grid container>
+      <Grid container size={2}>
           {/*  Replace the following with a custom component */}
           {VALID_VOTES.map((item) => 
             <Paper key={`vote-${item}`} sx={{ padding: 5 }}>
@@ -78,7 +78,7 @@ const Room:React.FC = () => {
       </Grid>
 
       {/*  2nd column */}
-      <Grid container>
+      <Grid container size={1}>
         <Box>
           <Typography>Timer: 00:45</Typography>
           <Stack spacing={2} direction="row">
