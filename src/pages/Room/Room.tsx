@@ -5,6 +5,7 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import DeleteIcon from '@mui/icons-material/Delete';
 import React from "react";
+import { CardList } from "@/components/CardList";
 
 const INITIAL_SECONDS = 60;
 
@@ -38,11 +39,7 @@ const Room:React.FC = () => {
       {/*  1st column */}
       <Grid container size={2}>
           {/*  Replace the following with a custom component */}
-          {VALID_VOTES.map((item) => 
-            <Paper key={`vote-${item}`} sx={{ padding: 5 }}>
-              <Typography component='div' variant="h5">{item}</Typography>
-            </Paper>
-          )}
+          <CardList data={Array.from(VALID_VOTES)} />
         <Grid>
           <Typography variant="h4">Stories</Typography>
           <Button variant="outlined" size="small" onClick={() => console.log('Create new story')}>Create new story</Button>
