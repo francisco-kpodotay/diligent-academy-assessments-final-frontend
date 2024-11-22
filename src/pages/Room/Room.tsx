@@ -5,16 +5,10 @@ import {
   Typography,
   Box,
   Button,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemButton,
   Stack,
-  IconButton,
 } from "@mui/material";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import DeleteIcon from "@mui/icons-material/Delete";
 import React from "react";
 import { CardList, StoryList } from "@/components";
 
@@ -30,12 +24,12 @@ const formatTime = (timeInSeconds: number) => {
 };
 
 const Room: React.FC = () => {
-  let { id } = useParams();
+  let { id: roomId } = useParams();
   // const [timerSeconds, setTimerSeconds] = React.useState(INITIAL_SECONDS);
 
-  const storiesQuery = useQuery<PaginatedResponse<Story>>({
-    queryKey: ["stories", "byRoomId", id],
-    queryFn: () => getStoriesByRoomId(id!),
+  const {data: stories} = useQuery<PaginatedResponse<Story>>({
+    queryKey: ["stories", "byRoomId", roomId],
+    queryFn: () => getStoriesByRoomId(roomId!),
     placeholderData: keepPreviousData,
   });
 
@@ -44,14 +38,6 @@ const Room: React.FC = () => {
     queryFn: () => getUsers(),
     placeholderData: keepPreviousData,
   });
-
-  const tasks = [
-    "ABC-001 Create a new SignUp form",
-    "ABC-002 Implement login functionality",
-    "ABC-003 Design a landing page",
-    "ABC-004 Add a password reset feature",
-    "ABC-005 Optimize the user dashboard",
-  ];
 
   return (
     <Grid container spacing={2} columns={3}>
@@ -69,7 +55,7 @@ const Room: React.FC = () => {
             Create new story
           </Button>
           {/*  Replace the following with a custom component */}
-          <StoryList data={tasks}></StoryList>
+          {stories && <StoryList data={stories.data}></StoryList>}
         </Grid>
       </Grid>
 

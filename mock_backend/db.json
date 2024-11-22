@@ -1,8 +1,39 @@
 {
-  "stories": [],
+  "stories": [
+    {
+      "id": "b1a5a1b5-c4b7-4e36-832b-41f1e8b6db1c",
+      "name": "Create a new SignUp form",
+      "storyPoint": null,
+      "roomId": "0"
+    },
+    {
+      "id": "c3d2a9f1-5b37-42ab-ae98-9c5d3f9c7187",
+      "name": "Implement login functionality",
+      "storyPoint": null,
+      "roomId": "0"
+    },
+    {
+      "id": "d7e3a8c6-9b42-487d-8354-2ef5b3c6a174",
+      "name": "Design a landing page",
+      "storyPoint": null,
+      "roomId": "0"
+    },
+    {
+      "id": "e6f4b7a2-7c3e-4931-9452-f3a8b9d2716f",
+      "name": "Add a password reset feature",
+      "storyPoint": null,
+      "roomId": "0"
+    },
+    {
+      "id": "f8a1c5b2-4d7e-4a38-923b-61b8e7f9c712",
+      "name": "Optimize the user dashboard",
+      "storyPoint": null,
+      "roomId": "0"
+    }
+  ],
   "rooms": [
     {
-      "id": "ba3ba7d0-aac3-4320-ba0d-5c034b440691",
+      "id": "0",
       "name": "Refine Sprint 001",
       "createdAt": "2024-11-01",
       "userId": "7a19c312-644c-425f-996c-c58c61b3afa7"
@@ -69,6 +100,36 @@
       "first_name": "Susie",
       "last_name": "Hills I",
       "email": "kelly.schneider@kunze.example"
+    },
+    {
+      "id": "a21c4056-c08c-4343-b893-d3d9ce76fc3d",
+      "firstName": "Kpodo-Tay",
+      "lastName": "Salim",
+      "email": "xesabor751@bnovel.com"
+    },
+    {
+      "id": "d6d72be9-e3a8-4fbe-ae63-4949610dbcf8",
+      "firstName": "Kpodo-Tay",
+      "lastName": "Salim",
+      "email": "xesabor751@bnovel.com"
+    },
+    {
+      "id": "ed993a1f-9621-4fb9-81ae-1f1a8d4a5cc0",
+      "firstName": "Kpodo-Tay",
+      "lastName": "Salim",
+      "email": "xesabor751@bnovel.com"
+    },
+    {
+      "id": "054e03fb-83a3-4efc-8ef9-faaa198d617c",
+      "firstName": "Kpodo-Tay",
+      "lastName": "Salim",
+      "email": "xesabor751@bnovel.com"
+    },
+    {
+      "id": "fb03e716-7360-45c0-b019-0c771083ecec",
+      "firstName": "Kpodo-Tay",
+      "lastName": "Salim",
+      "email": "xesabor751@bnovel.com"
     }
   ]
 }
