@@ -1,5 +1,5 @@
-export const VALID_VOTES = ['?', 1, 2, 3, 5, 8, 13] as const;
-export type ValidVotes = typeof VALID_VOTES[number];
+export const VALID_VOTES = ["?", 1, 2, 3, 5, 8, 13] as const;
+export type ValidVotes = (typeof VALID_VOTES)[number];
 
 export type PaginatedResponse<DataType> = {
   data: DataType[];
@@ -10,14 +10,14 @@ export type PaginatedResponse<DataType> = {
 
 export type DataResponse<DataType> = {
   data: DataType[];
-}
+};
 
 export type User = {
   id: string;
   firstName: string;
   lastName: string;
   email: string;
-}
+};
 
 export type Room = {
   id: string;
@@ -39,3 +39,12 @@ export type Vote = {
   storyId: string;
   vote: ValidVotes;
 };
+
+export type SelectableListElement = {
+  item: string | number;
+  selected: boolean;
+};
+
+export type ListStateSetter = React.Dispatch<
+  React.SetStateAction<SelectableListElement[] | null>
+>;

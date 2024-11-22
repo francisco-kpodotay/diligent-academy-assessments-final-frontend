@@ -1,76 +1,75 @@
 import { getStoriesByRoomId, getUsers, getVotesByStoryId } from "@/api";
 import { PaginatedResponse, User, Story, VALID_VOTES, Vote } from "@/types";
-import { Grid2 as Grid, Typography, Paper, Box, Button, List, ListItem, ListItemText, ListItemButton, Stack, IconButton } from "@mui/material";
+import {
+  Grid2 as Grid,
+  Typography,
+  Box,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemButton,
+  Stack,
+  IconButton,
+} from "@mui/material";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 import React from "react";
-import { CardList } from "@/components/CardList";
+import { CardList, StoryList } from "@/components";
 
 const INITIAL_SECONDS = 60;
 
 const formatTime = (timeInSeconds: number) => {
-  const minutes = Math.floor(timeInSeconds / 60).toString().padStart(2, '0');
+  const minutes = Math.floor(timeInSeconds / 60)
+    .toString()
+    .padStart(2, "0");
 
-  const seconds = (timeInSeconds % 60).toString().padStart(2, '0');
+  const seconds = (timeInSeconds % 60).toString().padStart(2, "0");
   return `${minutes}:${seconds}`;
 };
 
-
-const Room:React.FC = () => {
+const Room: React.FC = () => {
   let { id } = useParams();
   // const [timerSeconds, setTimerSeconds] = React.useState(INITIAL_SECONDS);
-  
+
   const storiesQuery = useQuery<PaginatedResponse<Story>>({
-    queryKey: ['stories', 'byRoomId', id],
+    queryKey: ["stories", "byRoomId", id],
     queryFn: () => getStoriesByRoomId(id!),
-    placeholderData: keepPreviousData
-  })
+    placeholderData: keepPreviousData,
+  });
 
   const usersQuery = useQuery<PaginatedResponse<User>>({
-    queryKey: ['users'],
+    queryKey: ["users"],
     queryFn: () => getUsers(),
-    placeholderData: keepPreviousData
-  })
+    placeholderData: keepPreviousData,
+  });
 
+  const tasks = [
+    "ABC-001 Create a new SignUp form",
+    "ABC-002 Implement login functionality",
+    "ABC-003 Design a landing page",
+    "ABC-004 Add a password reset feature",
+    "ABC-005 Optimize the user dashboard",
+  ];
 
   return (
     <Grid container spacing={2} columns={3}>
       {/*  1st column */}
       <Grid container size={2}>
-          {/*  Replace the following with a custom component */}
-          <CardList data={Array.from(VALID_VOTES)} />
-        <Grid>
+        {/*  Replace the following with a custom component */}
+        <CardList data={Array.from(VALID_VOTES)} />
+        <Grid size={3}>
           <Typography variant="h4">Stories</Typography>
-          <Button variant="outlined" size="small" onClick={() => console.log('Create new story')}>Create new story</Button>
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={() => console.log("Create new story")}
+          >
+            Create new story
+          </Button>
           {/*  Replace the following with a custom component */}
-          <List>
-            <ListItem 
-              disablePadding
-              secondaryAction={
-                <IconButton edge="end" aria-label="delete">
-                  <DeleteIcon />
-                </IconButton>
-              }
-            >
-              <ListItemButton
-                selected={true}
-                onClick={(event) => console.log(event, 1)}
-              >
-                <ListItemText primary="ABC-001 Create a new SignUp form" />
-              </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemText primary="ABC-002 Add SearchField to the table" />
-              </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemText primary="ABC-003 Create a new Story" />
-              </ListItemButton>
-            </ListItem>
-          </List>
+          <StoryList data={tasks}></StoryList>
         </Grid>
       </Grid>
 
@@ -94,7 +93,7 @@ const Room:React.FC = () => {
         </Box>
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
 export default Room;
