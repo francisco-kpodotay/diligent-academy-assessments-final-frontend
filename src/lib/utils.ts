@@ -44,3 +44,14 @@ export function handleSelectEvent(
     });
   });
 }
+
+export function toCamelCase(sentence: string):string {
+  return sentence
+    .toLowerCase()
+    .split(/[^a-zA-Z0-9]+/)
+    .filter(Boolean)
+    .map((word, index) =>
+      index === 0 ? word : word[0].toUpperCase() + word.slice(1)
+    )
+    .join("");
+}
