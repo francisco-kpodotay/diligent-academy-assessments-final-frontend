@@ -43,7 +43,7 @@ export function createNewSelectableList(
   }
 }
 
-export function handleSelectEvent(
+export function changeStatus(
   stateSetter: ListStateSetter,
   selected: SelectableListElement
 ) {

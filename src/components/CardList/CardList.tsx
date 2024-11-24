@@ -1,6 +1,6 @@
 import {
+  changeStatus,
   getListObject,
-  handleSelectEvent,
   createNewSelectableList,
 } from "@/lib/listComponentHelpers/utils";
 import { useEffect, useState } from "react";
@@ -14,7 +14,7 @@ export function CardList({ data }: { data: (string | number)[] }) {
   );
 
   function handleClick(selected: SelectableListElement) {
-    handleSelectEvent(setCardList, selected);
+    changeStatus(setCardList, selected);
   }
 
   useEffect(() => {

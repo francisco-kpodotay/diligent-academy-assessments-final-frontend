@@ -122,12 +122,16 @@ server.post('/rooms', (req, res) => {
   res.status(201).json(newRoom);
 });
 
-server.delete("/stories/:id", async (req, res) => {
+server.delete('/stories/:id', async (req, res) => {
   const { id } = req.params;
-  await router.db.read();
-  router.db.get("stories").remove({ id: +id }).write();
-
-  res.jsonp({ success: true });
+  try {
+    await router.db.read();
+    router.db.get('stories').remove({ id }).write();
+    res.jsonp({ success: true });
+  } catch (error) {
+    console.error('Error while deleting story:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
 });
 
 router.render = (req, res) => {

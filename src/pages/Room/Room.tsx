@@ -70,7 +70,7 @@ const Room: React.FC = () => {
               open={showModal}
             />
           )}
-          {stories && <StoryList data={stories.data}></StoryList>}
+          {stories && <StoryList data={stories.data} roomId={roomId}/>}
         </Grid>
       </Grid>
 

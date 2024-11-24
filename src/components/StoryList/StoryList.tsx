@@ -1,8 +1,9 @@
 import {
   getListObject,
-  handleSelectEvent,
+  changeStatus,
   createNewSelectableList,
 } from "@/lib/listComponentHelpers/utils";
+import { deleteStory } from "@/api";
 import List from "@mui/material/List/List";
 import { useEffect, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -10,15 +11,34 @@ import ListItem from "@mui/material/ListItem/ListItem";
 import { SelectableListElement, Story } from "../../types";
 import IconButton from "@mui/material/IconButton/IconButton";
 import ListItemText from "@mui/material/ListItemText/ListItemText";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import ListItemButton from "@mui/material/ListItemButton/ListItemButton";
 
-export function StoryList({ data }: { data: Story[] | undefined }) {
+export function StoryList({
+  data,
+  roomId,
+}: {
+  data: Story[] | undefined;
+  roomId: string | undefined;
+}) {
+  const queryClient = useQueryClient();
   const [storyList, setStoryList] = useState<SelectableListElement[] | null>(
     null
   );
 
-  function handleClick(selected: SelectableListElement) {
-    handleSelectEvent(setStoryList, selected);
+  const { mutateAsync: deletStoryMutation } = useMutation({
+    mutationFn: (storyId: string) => {
+      return deleteStory(storyId);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["stories", "byRoomId", roomId],
+      });
+    },
+  });
+
+  function handleSelect(selected: SelectableListElement) {
+    changeStatus(setStoryList, selected);
   }
 
   useEffect(() => {
@@ -42,7 +62,11 @@ export function StoryList({ data }: { data: Story[] | undefined }) {
               disablePadding
               secondaryAction={
                 listObj.selected && (
-                  <IconButton edge="end" aria-label="delete">
+                  <IconButton
+                    edge="end"
+                    aria-label="delete"
+                    onClick={() => deletStoryMutation(listObj.id)}
+                  >
                     <DeleteIcon />
                   </IconButton>
                 )
@@ -50,7 +74,7 @@ export function StoryList({ data }: { data: Story[] | undefined }) {
             >
               <ListItemButton
                 selected={listObj.selected}
-                onClick={() => handleClick(element)}
+                onClick={() => handleSelect(element)}
               >
                 <ListItemText primary={listObj.text} />
               </ListItemButton>
