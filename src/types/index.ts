@@ -41,7 +41,7 @@ export type Vote = {
 };
 
 export type SelectableListElement = {
-  item: string | number;
+  item: string | number | Story;
   selected: boolean;
 };
 

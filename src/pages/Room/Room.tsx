@@ -6,11 +6,17 @@ import {
   Box,
   Button,
   Stack,
+  ClickAwayListener,
 } from "@mui/material";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import {
+  keepPreviousData,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import React from "react";
+import React, { useState } from "react";
 import { CardList, StoryList } from "@/components";
+import CreateStoryModal from "@/components/CreateStoryModal/CreateStoryModal";
 
 const INITIAL_SECONDS = 60;
 
@@ -25,9 +31,17 @@ const formatTime = (timeInSeconds: number) => {
 
 const Room: React.FC = () => {
   let { id: roomId } = useParams();
+  const [showModal, setShowModal] = useState(false);
   // const [timerSeconds, setTimerSeconds] = React.useState(INITIAL_SECONDS);
 
-  const {data: stories} = useQuery<PaginatedResponse<Story>>({
+  function handleShow() {
+    setShowModal(true);
+  }
+  function handleHide() {
+    setShowModal(false);
+  }
+
+  const { data: stories } = useQuery<PaginatedResponse<Story>>({
     queryKey: ["stories", "byRoomId", roomId],
     queryFn: () => getStoriesByRoomId(roomId!),
     placeholderData: keepPreviousData,
@@ -43,18 +57,19 @@ const Room: React.FC = () => {
     <Grid container spacing={2} columns={3}>
       {/*  1st column */}
       <Grid container size={2}>
-        {/*  Replace the following with a custom component */}
         <CardList data={Array.from(VALID_VOTES)} />
         <Grid size={3}>
           <Typography variant="h4">Stories</Typography>
-          <Button
-            variant="outlined"
-            size="small"
-            onClick={() => console.log("Create new story")}
-          >
+          <Button variant="outlined" size="small" onClick={handleShow}>
             Create new story
           </Button>
-          {/*  Replace the following with a custom component */}
+          {showModal && (
+            <CreateStoryModal
+              roomId={roomId}
+              doClose={handleHide}
+              open={showModal}
+            />
+          )}
           {stories && <StoryList data={stories.data}></StoryList>}
         </Grid>
       </Grid>

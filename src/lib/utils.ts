@@ -1,4 +1,4 @@
-import { ListStateSetter, SelectableListElement } from "@/types";
+import { Story } from "@/types";
 
 export function getFormattedDate() {
   const today = new Date();
@@ -9,43 +9,18 @@ export function getFormattedDate() {
   return formattedDate;
 }
 
-export function createNewSelectableList(
-  stateSetter: ListStateSetter,
-  data: (string | number)[]
-) {
-  if (Array.isArray(data)) {
-    stateSetter(
-      data.map((item) => {
-        const newElement = { item: item, selected: false };
-        return newElement;
-      })
-    );
-  } else {
-    console.error("List prop needs to be an array");
-  }
+export function isStory(item: any): item is Story {
+  return (
+    item !== null &&
+    typeof item === "object" &&
+    "id" in item &&
+    typeof item.id === "string" &&
+    "name" in item &&
+    typeof item.name === "string"
+  );
 }
 
-export function handleSelectEvent(
-  stateSetter: ListStateSetter,
-  selected: SelectableListElement
-) {
-  stateSetter((prev) => {
-    if (!prev) return null;
-
-    return prev.map((element) => {
-      if (element.item === selected.item) {
-        return {
-          ...element,
-          selected: element.selected === true ? false : true,
-        };
-      } else {
-        return { ...element, selected: false };
-      }
-    });
-  });
-}
-
-export function toCamelCase(sentence: string):string {
+export function toCamelCase(sentence: string): string {
   return sentence
     .toLowerCase()
     .split(/[^a-zA-Z0-9]+/)

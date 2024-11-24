@@ -4,11 +4,11 @@ import { createRoom } from "@/api";
 import { useNavigate } from "react-router-dom";
 import { getFormattedDate } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSessionState } from "@/stores/SessionContext";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm, SubmitHandler } from "react-hook-form";
-import CustomFormContainer from "@/components/Form/CustomFormContainer";
+import { useSessionState } from "@/stores/SessionContext";
 import CustomController from "@/components/Form/CustomController";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import CustomFormContainer from "@/components/Form/CustomFormContainer";
 
 const schema = z.object({
   roomName: z.string().min(5),
@@ -24,6 +24,9 @@ const CreateRoom = () => {
   const { mutateAsync: createRoomMutation } = useMutation({
     mutationFn: (payload: Room) => {
       return createRoom(payload);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["rooms"] });
     },
   });
 
@@ -45,8 +48,7 @@ const CreateRoom = () => {
       createdAt: getFormattedDate(),
     };
 
-    await createRoomMutation({ ...newRoom } as unknown as Room);
-    queryClient.invalidateQueries({ queryKey: ["rooms"] });
+    await createRoomMutation(newRoom as Room);
     navigate("/");
   };
 

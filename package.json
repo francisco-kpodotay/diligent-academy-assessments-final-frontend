@@ -11,8 +11,6 @@
     "backend": "node ./mock_backend/server.cjs"
   },
   "dependencies": {
-    "@emotion/react": "latest",
-    "@emotion/styled": "latest",
     "@fontsource/roboto": "^5.1.0",
     "@hookform/resolvers": "^3.9.1",
     "@mui/icons-material": "latest",

@@ -1,11 +1,12 @@
 import { z } from "zod";
 import { Story } from "@/types";
 import { createStory } from "@/api";
+import { Card, Modal } from "@mui/material";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useForm,  SubmitHandler } from "react-hook-form";
 import CustomController from "../Form/CustomController";
+import { useForm, SubmitHandler } from "react-hook-form";
 import CustomFormContainer from "../Form/CustomFormContainer";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const schema = z.object({
   storyName: z.string().min(2),
@@ -13,14 +14,25 @@ const schema = z.object({
 
 type IFormInput = z.infer<typeof schema>;
 
-const CreateStoryModal = ({ roomId }: { roomId: number }) => {
-  //const navigate = useNavigate();
-  //const {user} = useSessionState();
-  const queryClient = useQueryClient();
+interface CreateStoryModalProps {
+  roomId: string | undefined;
+  open: boolean;
+  doClose: () => void;
+}
+
+const CreateStoryModal: React.FC<CreateStoryModalProps> = ({
+  roomId,
+  open,
+  doClose,
+}) => {
+    const queryClient = useQueryClient();
 
   const { mutateAsync: createStoryMutation } = useMutation({
     mutationFn: (payload: Story) => {
       return createStory(payload);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["stories", "byRoomId", roomId] });
     },
   });
 
@@ -37,23 +49,40 @@ const CreateStoryModal = ({ roomId }: { roomId: number }) => {
       roomId: roomId,
     };
 
-    await createStoryMutation({ ...newStory } as unknown as Story);
-    queryClient.invalidateQueries({ queryKey: ["stories"] });
-
-    //close the modal
+    try {
+      await createStoryMutation(newStory as Story);
+      doClose();
+    } catch (error) {
+      console.error("Error creating story:", error);
+    }
   };
 
   return (
-    <CustomFormContainer
-      title="Create Story"
-      btnText="Save"
-      handleSubmit={handleSubmit}
-      onSubmit={onSubmit}
-      control={control}
-      formState={formState}
-    >
-      <CustomController label={"Story Name"} placeholder={"Your story name"} />
-    </CustomFormContainer>
+    <>
+      <Modal
+        open={open}
+        onClose={doClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        sx={{ width: 1 / 2, ml: 50, height: "auto", mt: 25 }}
+      >
+        <Card>
+          <CustomFormContainer
+            title="Create Story"
+            btnText="Save"
+            handleSubmit={handleSubmit}
+            onSubmit={onSubmit}
+            control={control}
+            formState={formState}
+          >
+            <CustomController
+              label={"Story Name"}
+              placeholder={"Your story name"}
+            />
+          </CustomFormContainer>
+        </Card>
+      </Modal>
+    </>
   );
 };
 
