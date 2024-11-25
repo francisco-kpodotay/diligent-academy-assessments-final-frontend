@@ -45,13 +45,13 @@ export function createNewSelectableList(
 
 export function changeStatus(
   stateSetter: ListStateSetter,
-  selected: SelectableListElement
+  selected?: SelectableListElement 
 ) {
   stateSetter((prev) => {
     if (!prev) return null;
 
     return prev.map((element) => {
-      if (element.item === selected.item) {
+      if (selected && element.item === selected.item) {
         return {
           ...element,
           selected: element.selected === true ? false : true,

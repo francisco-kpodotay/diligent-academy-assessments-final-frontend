@@ -47,6 +47,7 @@ const CreateStoryModal: React.FC<CreateStoryModalProps> = ({
     const newStory = {
       name: inputData.storyName,
       roomId: roomId,
+      storyPoint: null,
     };
 
     try {

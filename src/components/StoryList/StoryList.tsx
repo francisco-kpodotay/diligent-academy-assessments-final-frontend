@@ -1,30 +1,40 @@
 import {
-  getListObject,
+  useQuery,
+  useMutation,
+  useQueryClient,
+  keepPreviousData,
+} from "@tanstack/react-query";
+import {
   changeStatus,
+  getListObject,
   createNewSelectableList,
 } from "@/lib/listComponentHelpers/utils";
-import { deleteStory } from "@/api";
 import List from "@mui/material/List/List";
 import { useEffect, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ListItem from "@mui/material/ListItem/ListItem";
-import { SelectableListElement, Story } from "../../types";
+import { deleteStory, getStoriesByRoomId } from "@/api";
 import IconButton from "@mui/material/IconButton/IconButton";
 import ListItemText from "@mui/material/ListItemText/ListItemText";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import ListItemButton from "@mui/material/ListItemButton/ListItemButton";
+import { PaginatedResponse, SelectableListElement, Story } from "../../types";
 
-export function StoryList({
-  data,
-  roomId,
-}: {
-  data: Story[] | undefined;
+interface StoryListProps {
   roomId: string | undefined;
-}) {
+  doSelectStory: (story: SelectableListElement) => void;
+}
+
+const StoryList: React.FC<StoryListProps> = ({ roomId, doSelectStory }) => {
   const queryClient = useQueryClient();
   const [storyList, setStoryList] = useState<SelectableListElement[] | null>(
     null
   );
+
+  const { data: stories } = useQuery<PaginatedResponse<Story>>({
+    queryKey: ["stories", "byRoomId", roomId],
+    queryFn: () => getStoriesByRoomId(roomId!),
+    placeholderData: keepPreviousData,
+  });
 
   const { mutateAsync: deletStoryMutation } = useMutation({
     mutationFn: (storyId: string) => {
@@ -37,19 +47,16 @@ export function StoryList({
     },
   });
 
-  function handleSelect(selected: SelectableListElement) {
-    changeStatus(setStoryList, selected);
+  function handleSelect(story: SelectableListElement) {
+    doSelectStory(story);
+    changeStatus(setStoryList, story);
   }
 
   useEffect(() => {
-    if (data) {
-      createNewSelectableList(setStoryList, data);
-    } else {
-      console.error(
-        "Error: No data available. Unable to create the story list."
-      );
+    if (stories) {
+      createNewSelectableList(setStoryList, stories.data);
     }
-  }, [data]);
+  }, [stories]);
 
   return (
     <List>
@@ -83,4 +90,6 @@ export function StoryList({
         })}
     </List>
   );
-}
+};
+
+export default StoryList;

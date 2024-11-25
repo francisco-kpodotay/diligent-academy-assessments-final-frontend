@@ -75,7 +75,38 @@
       "createdAt": "2024-11-24"
     }
   ],
-  "votes": [],
+  "votes": [
+    {
+      "id": "d5a1f1e0-3f94-46ae-9451-06f75bfe033f",
+      "userId": "caad8e4d-b587-4a0a-b79c-4bf57fd71793",
+      "storyId": "b1a5a1b5-c4b7-4e36-832b-41f1e8b6db1c",
+      "vote": 2
+    },
+    {
+      "id": "f8f9b9f0-fcb1-430b-ae1d-cd5c2a79a906",
+      "userId": "58addfdb-3e44-45b9-90b5-7da3b216917d",
+      "storyId": "c3d2a9f1-5b37-42ab-ae98-9c5d3f9c7187",
+      "vote": 5
+    },
+    {
+      "id": "e1bb21b8-573b-44e2-87bc-8f1f11a9be50",
+      "userId": "74ae71e2-55d4-4fac-9402-981959e1fcd5",
+      "storyId": "d7e3a8c6-9b42-487d-8354-2ef5b3c6a174",
+      "vote": 8
+    },
+    {
+      "id": "bd6ef098-bf5c-46be-bba2-b95d42861a75",
+      "userId": "7a44f1dd-bd1f-4af1-9633-5c9058df99d1",
+      "storyId": "e6f4b7a2-7c3e-4931-9452-f3a8b9d2716f",
+      "vote": 13
+    },
+    {
+      "id": "d8399a2a-ccf7-41e3-b4f2-764c278ac9b7",
+      "userId": "7a19c312-644c-425f-996c-c58c61b3afa7",
+      "storyId": "f8a1c5b2-4d7e-4a38-923b-61b8e7f9c712",
+      "vote": 2
+    }
+  ],
   "users": [
     {
       "id": "caad8e4d-b587-4a0a-b79c-4bf57fd71793",
@@ -106,12 +137,6 @@
       "first_name": "Susie",
       "last_name": "Hills I",
       "email": "kelly.schneider@kunze.example"
-    },
-    {
-      "id": "b3a1ec55-87ac-48cb-9bf6-c9ae941b7d4a",
-      "firstName": "Kpodo-Tay",
-      "lastName": "Salim",
-      "email": "xesabor751@bnovel.com"
     }
   ]
 }
